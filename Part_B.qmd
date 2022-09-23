@@ -1,0 +1,64 @@
+---
+title: "STA426_Week1_Ex2"
+format: html
+editor: visual
+---
+
+## Week1 - Part B
+
+### Description:
+
+*Create an HTML document with R code that samples 100 values from a negative binomial distribution (say, mu=10, dispersion=2; using the parameterisation with mean=mu and variance=mu+mu2 \*dispersion); create a histogram of sampled data on both the linear and log \[or maybe log(x+1) due to zeros\] scale; Write 1-2 sentences to describe your steps (ideally also with section headings) and report the mean and variance of the sample in line in the text.*
+
+Load tidyverse for convenience and better plots.
+
+```{r}
+library(tidyverse)
+
+```
+
+Step 1: sample 100 values from a negative binomial distribution with the indicated parameters.
+
+```{r}
+set.seed(100) # for reproducibility
+x <- rnbinom(n = 100, size = 2, # size is the dispersion parameter
+        mu = 10)
+```
+
+Step 2: Create plots
+
+```{r}
+df <- data.frame(x) # turn it into a dataframe for ggplot
+
+df %>%
+  ggplot(aes(x = x)) +
+  geom_histogram() +
+  ggtitle("histogram - linear scale") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+df %>%
+  mutate(x = log(x + 1)) %>% # transform data
+  ggplot(aes(x = x)) +
+  geom_histogram() +
+  ggtitle("histogram - log (x +1)") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Step 3: Report mean and variance.
+
+Using the mean and variance functions we get a mean of
+
+```{r}
+#| echo: false
+mean(x)
+```
+
+and a variance of
+
+```{r}
+#| echo: false
+var(x)
+```
+
+\
